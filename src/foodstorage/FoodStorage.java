@@ -233,9 +233,52 @@ public static void main(String[] args) {
                 break;
             }
             
-            case "4":                                   // look for one food using its ID
-                System.out.println("Search food item by ID: coming soon!");
-                break;
+            case "4":   { // look for one food using its ID
+                // first i check if the storage is empty, so i dont ask the chef for an ID when there is nothing to search
+                boolean isEmpty; // boolean = a box that only holds true or false
+                
+                if (storageOption.equals("1")){ // if the chef chose stack
+                    isEmpty = stack.isEmpty();  // asking the stack: are you empty? (top == -1)
+                } else {                        // if not, it is the queue
+                    isEmpty = queue.isEmpty();  // asking the queue: are you empty? (front == -1)
+                }
+                
+                if (isEmpty) { // if it is empty, there is nothing to search
+                    System.out.println("Storage is Empty!");
+                    break; // leaves case 4 now and goes back to the menu, the ID question is skipped
+                }
+                
+                int searchId = 0; // starts at 0 (an invalid ID), so the loop always asks at least once
+                
+                 do {
+                        System.out.print("Type the food ID: "); // im asking for the food id 
+                        String idAnswer = keyboard.nextLine().trim(); 
+                    try { 
+                        searchId = Integer.parseInt(idAnswer);
+                    } catch (NumberFormatException e) { //my exception
+                        searchId = 0; 
+                    } 
+                    if (searchId < 1) { // to make sure the chefs insert a value bigger than 0 
+                        System.out.println("Invalid ID. Please type a number bigger than 0."); 
+                    } 
+                
+                } while (searchId < 1); // 01 is a valid Id but 0 isnt thats why the loop is gonna keep going 
+                
+                // now the waiter walks through the trays looking for this ID (linear search, O(n))
+                FoodItem foundFood; // a box for the card the waiter brings back (or null if he finds nothing)
+                if (storageOption.equals("1")) {
+                    foundFood = stack.searchById(searchId); // stack: checks from the TOP down to the bottom
+                } else {
+                    foundFood = queue.searchById(searchId); // queue: checks from the FRONT to the rear
+                }
+                if (foundFood == null) { // null = empty box, so no food has this ID
+                    System.out.println(" Item not found. ");
+                } else { // the waiter found it! the card describes itself with getDetails()
+                    System.out.println("Item found : " + foundFood.getDetails());
+                }
+                 break;
+            }
+                
             
             case "5": {   // take out the next food
                          
