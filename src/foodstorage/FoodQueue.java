@@ -1,6 +1,15 @@
 package foodstorage;
 
 
+// ===================== TIME COMPLEXITY (circular queue, FIFO) =====================
+// isEmpty()    O(1) - only checks front, one comparison
+// isFull()     O(1) - one small calculation with %, no loop
+// enqueue()    O(1) - rear moves one step with %, nothing else moves
+// dequeue()    O(1) - front moves one step with %, nothing else moves
+// peek()       O(1) - goes straight to trays[front]
+// display()    O(n) - has to visit every food from front to rear
+// searchById() O(n) - linear search: worst case checks all n foods (data is not sorted by ID)
+// =====================================================================================
 public class FoodQueue { //<-- the constructor name and the class name 
     
     private int front; // it changes to the front
@@ -19,10 +28,12 @@ public class FoodQueue { //<-- the constructor name and the class name
        
     }
     
+    // Time complexity: O(1)
     public boolean isEmpty(){ //im gonna use this method here to check if my queue is empty!
        return this.front == -1 && this.rear == -1; // return this front -1 when rear it is also -1
     }
     
+    // Time complexity: O(1)
     public boolean isFull(){ 
       return (this.rear + 1) % this.capacity == this.front;
         // in a circular queue this is the formula that i use to check if the queue is full      
@@ -30,6 +41,7 @@ public class FoodQueue { //<-- the constructor name and the class name
         // max limit of rear = capacity +(-1) + %(modolus) of my maximum value and then i compare w/ my front position
     }   
     
+    // Time complexity: O(1) - circular queue: no shifting, rear just wraps around with %
     public void enqueue(FoodItem item) { // i use enqueue when i want to insert an item; rear +1
         if (isFull()) {                       // no free tray, so stop here
             System.out.println("Storage is full!"); //message saying the storage is full
@@ -44,6 +56,7 @@ public class FoodQueue { //<-- the constructor name and the class name
         this.trays[this.rear] = item;
     }
     
+    // Time complexity: O(1) - circular queue: no shifting, front just wraps around with %
     public FoodItem dequeue(){ //dequeue is when i want to remove an item; front +1
         if (isEmpty()) { //first im gonna check if my queue is empty
             System.out.println("Queue is empty"); // a message saying it is empty
@@ -66,6 +79,7 @@ public class FoodQueue { //<-- the constructor name and the class name
     }
     
     // peek = just LOOK at the next food, without taking it out
+    // Time complexity: O(1)
     public FoodItem peek() {
         if (isEmpty()) {
             return null; // dont show nothing 
@@ -74,6 +88,7 @@ public class FoodQueue { //<-- the constructor name and the class name
     }
     
     // display = walk around the round bar from the front to the rear, showing every food
+    // Time complexity: O(n) - one print for each food in the queue
     public void display() { // basically displays the whole food storage 
         if (isEmpty()) {
             System.out.println("Storage is empty!"); //if it is empty it is gonna display this message
@@ -90,6 +105,7 @@ public class FoodQueue { //<-- the constructor name and the class name
     }
     
     // search = the same walk, but comparing the ID of each card (linear search)
+    // Time complexity: O(n) - worst case: the ID is the last one or does not exist
     public FoodItem searchById(int id) {
         if (isEmpty()) {
             return null;
