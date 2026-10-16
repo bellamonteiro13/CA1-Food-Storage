@@ -216,17 +216,17 @@ public static void main(String[] args) {
                 FoodItem nextFood; // FoodItem - what type of thing goes in the box 
                                     // nextfood - the name of the box
                                     
-                if(storageOption.equals("1")) { // in case the storageOption would be 01
+                if (storageOption.equals("1")) { // in case the storageOption would be 01
                     nextFood = stack.peek(); // stack: it is like a waiter peeking at the TOP of the pile
                     
-                }else {
+                } else {
                     nextFood = queue.peek(); // queue: now the waiter it is gonna PEEK(look) at the FRONt of the line
                 }
                 
                  //now it is like what did the waiter bring? 
-                 if(nextFood == null) {
+                 if (nextFood == null) {
                      System.out.println("Storage is Empty!"); // if there is nothing
-                 }else {
+                 } else {
                      System.out.println("Next food: " + nextFood.getDetails()); // get details makes the card describe itself in one line of text;
                  }
             
@@ -237,9 +237,27 @@ public static void main(String[] args) {
                 System.out.println("Search food item by ID: coming soon!");
                 break;
             
-            case "5":                                   // take out the next food
-                System.out.println("Remove next food item: coming soon!");
+            case "5": {   // take out the next food
+                         
+                FoodItem removeItem; // aqui estou declarando a variacao removeItem
+                
+                if(storageOption.equals("1")) { //
+                    removeItem = stack.pop(); //here im removing an item from my stack
+                } else {
+                    removeItem = queue.dequeue(); // here im removing an item from my queue
+                }
+                if ( removeItem == null){ // it is one of my validations to show the stack/queue is empty
+                    System.out.println("Storage food is empty!");
+                    
+                } else {
+                 System.out.println("Item ID: " + removeItem.getId() + " removed");   
+                 
+                         
+                }
+                
                 break;
+            }
+                
             
             case "0":
                 System.out.println("Okay, goodbye!");
